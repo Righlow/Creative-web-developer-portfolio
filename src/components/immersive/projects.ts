@@ -64,17 +64,4 @@ export const projects: Project[] = [
     placeholder: "/projects/perceptor.png",
     env: "neon",
   },
-  {
-    id: "1life",
-    title: "1Life — Life Tracker & Habit App",
-    category: "Personal Project · Full Stack / Mobile",
-    date: "Feb – May 2026",
-    description:
-      "A Notion-inspired life operating system that tracks interconnected habits across six domains — physical, mental, financial, spiritual, emotional, and personal. A gamified XP system and a growing 'life tree' visual turn daily discipline into a game.",
-    tags: ["React Native", "Node.js", "Express", "MongoDB", "Gamification"],
-    placeholder: "/projects/1life.png",
-    aspect: "aspect-[2/4]",
-    objectPosition: "center top",
-    env: "retro",
-  },
 ];

@@ -2,7 +2,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { projects } from "../components/immersive/projects";
 import { ProjectCard } from "../components/immersive/ProjectCard";
-import { Github, Linkedin, Mail, MapPin, Download, ArrowDown, Menu, X } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Download,
+  ArrowDown,
+  Menu,
+  X,
+  Plane,
+  BadgeCheck,
+} from "lucide-react";
 
 const ImmersiveScene = lazy(() =>
   import("../components/immersive/ImmersiveScene").then((m) => ({ default: m.ImmersiveScene })),
@@ -32,18 +43,17 @@ const sections = [
 ];
 
 /*
-  COLOR SYSTEM — 4 colors, used on every section
+  COLOR SYSTEM — Rightopia's Lab palette, used on every section
   W  #ffffff   white  — headings, body text
-  B  #2563EB   blue   — section labels, nav, structure
-  R  #C8392B   red    — accent words, CTAs, energy
-  Y  #F5C518   yellow — highlights, stats, warmth
+  R  #CF2626   pop red      — section labels, nav, CTAs, energy
+  G  #498C40   jungle green — secondary accent, growth, balance
+  Y  #FFD700   electric yellow — highlights, stats, warmth
 */
 
 const W = "#ffffff";
-const B = "#2563EB";
-const BT = "#7AAEFF"; // lighter blue for text sitting directly on dark backgrounds — #2563EB alone fails contrast there
-const R = "#C8392B";
-const Y = "#F5C518";
+const R = "#CF2626";
+const G = "#498C40";
+const Y = "#FFD700";
 
 function Index() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -98,7 +108,7 @@ function Index() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at center, transparent 30%, rgba(10,10,18,0.82) 100%)",
+              "radial-gradient(ellipse at center, transparent 30%, rgba(10,10,18,0.42) 100%)",
           }}
         />
       </div>
@@ -136,7 +146,7 @@ function Index() {
               className="px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] rounded-full transition-all duration-200 font-semibold"
               style={
                 active === s.id
-                  ? { backgroundColor: B, color: W }
+                  ? { backgroundColor: R, color: W }
                   : { color: "rgba(255,255,255,0.50)" }
               }
             >
@@ -186,7 +196,7 @@ function Index() {
                 className="w-full max-w-xs text-center py-4 rounded-2xl text-lg font-bold uppercase tracking-[0.18em] transition-all duration-200"
                 style={
                   active === s.id
-                    ? { backgroundColor: B, color: W }
+                    ? { backgroundColor: R, color: W }
                     : {
                         color: "rgba(255,255,255,0.55)",
                         backgroundColor: "rgba(255,255,255,0.04)",
@@ -242,16 +252,17 @@ function Index() {
       <main
         ref={scrollRef}
         className="immersive-scroll relative z-10 h-screen w-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory"
+        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.85), 0 2px 14px rgba(0,0,0,0.55)" }}
       >
-        {/* ━━━━ HERO — W B R Y ━━━━ */}
+        {/* ━━━━ HERO — W R Y ━━━━ */}
         <section
           id="hero"
           className="snap-start relative min-h-screen flex items-center justify-center px-4 md:px-12"
         >
           <div
-            className="max-w-2xl text-center space-y-6 rounded-[2.5rem] px-6 py-10 md:px-14 md:py-14 backdrop-blur-2xl"
+            className="max-w-lg text-center space-y-4 rounded-[2.25rem] px-6 py-6 md:px-9 md:py-7 backdrop-blur-xl"
             style={{
-              backgroundColor: "rgba(8,8,14,0.62)",
+              backgroundColor: "rgba(8,8,14,0.34)",
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
@@ -271,30 +282,45 @@ function Index() {
               Available for web applications &amp; e-commerce
             </div>
 
-            {/* name — blue */}
-            <p
-              className="font-mono text-xs md:text-sm tracking-[0.35em] uppercase font-semibold"
-              style={{ color: BT }}
-            >
-              Rorisang Kedijang
-            </p>
+            {/* name row — LinkedIn-style: name + verified badge + pronouns */}
+            <div className="flex items-center justify-center gap-2 flex-wrap">
+              <span
+                className="font-mono text-xs md:text-sm tracking-[0.35em] uppercase font-semibold"
+                style={{ color: Y }}
+              >
+                Rorisang Kedijang
+              </span>
+              <BadgeCheck className="h-4 w-4 md:h-[18px] md:w-[18px]" style={{ color: Y }} />
+              <span
+                className="text-[11px] md:text-xs font-medium tracking-wide"
+                style={{ color: "rgba(255,255,255,0.55)" }}
+              >
+                He/Him
+              </span>
+            </div>
 
-            {/* headline — white + yellow "Web" + red "Developer." */}
+            {/* headline — white + yellow "Technologist," + red descriptor */}
             <h1
-              className="text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.02] tracking-tight"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] tracking-tight"
               style={{ color: W }}
             >
-              Creative <span style={{ color: Y }}>Web</span>
-              <br />
-              <span style={{ color: R }}>Developer.</span>
+              Creative <span style={{ color: Y }}>Technologist,</span>
             </h1>
-
             <p
-              className="text-sm md:text-base leading-relaxed max-w-md mx-auto"
-              style={{ color: "rgba(255,255,255,0.78)" }}
+              className="text-base sm:text-lg md:text-xl font-semibold"
+              style={{ color: R }}
             >
-              Translating creative concepts into functional, interactive web experiences.
+              Specialising in web development.
             </p>
+
+            {/* location — matches LinkedIn header */}
+            <div
+              className="flex items-center justify-center gap-1.5 text-xs md:text-sm"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+            >
+              <MapPin className="h-3.5 w-3.5" style={{ color: Y }} />
+              Bath, England, United Kingdom
+            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
               {/* primary CTA — red */}
@@ -329,7 +355,7 @@ function Index() {
           </div>
         </section>
 
-        {/* ━━━━ 01 ABOUT ME — W B R Y ━━━━ */}
+        {/* ━━━━ 01 ABOUT ME — W R Y ━━━━ */}
         <section
           id="about"
           className="snap-start relative min-h-screen flex items-center px-4 md:px-12 py-20 md:py-24"
@@ -338,7 +364,7 @@ function Index() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(to right, rgba(10,10,18,0.96) 0%, rgba(10,10,18,0.78) 55%, rgba(10,10,18,0.12) 100%)",
+                "linear-gradient(to right, rgba(10,10,18,0.52) 0%, rgba(10,10,18,0.34) 55%, rgba(10,10,18,0.05) 100%)",
             }}
           />
 
@@ -347,11 +373,11 @@ function Index() {
             <div className="flex items-center gap-3 mb-10">
               <span
                 className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
-                style={{ color: BT }}
+                style={{ color: Y }}
               >
                 01 — About Me
               </span>
-              <span className="h-px w-10" style={{ backgroundColor: `${B}55` }} />
+              <span className="h-px w-10" style={{ backgroundColor: `${Y}55` }} />
             </div>
 
             <div className="grid md:grid-cols-5 gap-8 md:gap-16">
@@ -389,22 +415,22 @@ function Index() {
 
               <div className="md:col-span-3 space-y-8">
                 {/* bio — blue left border */}
-                <div className="pl-5 space-y-4" style={{ borderLeft: `2px solid ${B}66` }}>
+                <div className="pl-5 space-y-4" style={{ borderLeft: `2px solid ${Y}66` }}>
                   <p
                     className="text-base md:text-lg leading-relaxed font-medium"
                     style={{ color: W }}
                   >
-                    I'm Rorisang — a final year{" "}
-                    <span className="font-bold" style={{ color: BT }}>
-                      BSc Creative Computing
+                    I'm Rorisang — a{" "}
+                    <span className="font-bold" style={{ color: Y }}>
+                      BSc (Hons) Creative Computing
                     </span>{" "}
-                    student at Bath Spa University. I blend emerging web technologies and creative
+                    graduate from Bath Spa University. I blend emerging web technologies and creative
                     concepts to build responsive, functional web experiences people actually want to
                     use.
                   </p>
                   <p
                     className="text-sm md:text-base leading-relaxed"
-                    style={{ color: "rgba(255,255,255,0.58)" }}
+                    style={{ color: "rgba(255,255,255,0.80)" }}
                   >
                     With experience across Graphic Design and Web Development, I bring a unique
                     blend of creativity and technical precision to every problem I solve.
@@ -446,7 +472,7 @@ function Index() {
           </div>
         </section>
 
-        {/* ━━━━ 02 WHAT I DO — W B R Y ━━━━ */}
+        {/* ━━━━ 02 WHAT I DO — W R Y ━━━━ */}
         <section
           id="what-i-do"
           className="snap-start relative min-h-screen flex items-center px-4 md:px-12 py-20 md:py-24"
@@ -455,7 +481,7 @@ function Index() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(135deg, rgba(10,10,18,0.96) 0%, rgba(10,10,18,0.75) 55%, rgba(10,10,18,0.12) 100%)",
+                "linear-gradient(135deg, rgba(10,10,18,0.52) 0%, rgba(10,10,18,0.32) 55%, rgba(10,10,18,0.05) 100%)",
             }}
           />
 
@@ -463,11 +489,11 @@ function Index() {
             <div className="flex items-center gap-3 mb-10">
               <span
                 className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
-                style={{ color: BT }}
+                style={{ color: Y }}
               >
                 02 — What I Do
               </span>
-              <span className="h-px w-10" style={{ backgroundColor: `${B}55` }} />
+              <span className="h-px w-10" style={{ backgroundColor: `${Y}55` }} />
             </div>
 
             {/* headline — white + red */}
@@ -491,9 +517,9 @@ function Index() {
                 {
                   num: "02",
                   title: "Creative Web Dev",
-                  color: BT,
-                  bg: `${B}18`,
-                  border: `${B}33`,
+                  color: G,
+                  bg: `${G}18`,
+                  border: `${G}44`,
                   body: "Immersive, interactive experiences using Three.js and React Three Fibre — blending generative art, motion, and code into something memorable.",
                 },
                 {
@@ -521,7 +547,7 @@ function Index() {
                   </h3>
                   <p
                     className="text-sm leading-relaxed"
-                    style={{ color: "rgba(255,255,255,0.60)" }}
+                    style={{ color: "rgba(255,255,255,0.82)" }}
                   >
                     {card.body}
                   </p>
@@ -531,7 +557,7 @@ function Index() {
           </div>
         </section>
 
-        {/* ━━━━ 03 SKILLS — W B R Y ━━━━ */}
+        {/* ━━━━ 03 SKILLS — W R Y ━━━━ */}
         <section
           id="skills"
           className="snap-start relative min-h-screen flex items-center px-4 md:px-12 py-20 md:py-24"
@@ -540,7 +566,7 @@ function Index() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(to right, rgba(10,10,18,0.96) 0%, rgba(10,10,18,0.78) 55%, rgba(10,10,18,0.12) 100%)",
+                "linear-gradient(to right, rgba(10,10,18,0.52) 0%, rgba(10,10,18,0.34) 55%, rgba(10,10,18,0.05) 100%)",
             }}
           />
 
@@ -548,11 +574,11 @@ function Index() {
             <div className="flex items-center gap-3 mb-10">
               <span
                 className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
-                style={{ color: BT }}
+                style={{ color: Y }}
               >
                 03 — Skills
               </span>
-              <span className="h-px w-10" style={{ backgroundColor: `${B}55` }} />
+              <span className="h-px w-10" style={{ backgroundColor: `${Y}55` }} />
             </div>
 
             <h2
@@ -587,7 +613,7 @@ function Index() {
                     <li
                       key={it}
                       className="flex items-start gap-2.5 text-sm"
-                      style={{ color: "rgba(255,255,255,0.72)" }}
+                      style={{ color: "rgba(255,255,255,0.85)" }}
                     >
                       <span className="mt-0.5 flex-shrink-0 font-bold" style={{ color: Y }}>
                         ›
@@ -622,7 +648,7 @@ function Index() {
                     <li
                       key={it}
                       className="flex items-start gap-2.5 text-sm"
-                      style={{ color: "rgba(255,255,255,0.72)" }}
+                      style={{ color: "rgba(255,255,255,0.85)" }}
                     >
                       <span className="mt-0.5 flex-shrink-0 font-bold" style={{ color: R }}>
                         ›
@@ -633,16 +659,16 @@ function Index() {
                 </ul>
               </div>
 
-              {/* Tech Stack — blue back-end, red front-end, yellow label */}
+              {/* Tech Stack — green back-end, yellow front-end */}
               <div
                 className="rounded-2xl p-6 backdrop-blur-sm"
-                style={{ backgroundColor: `${B}0a`, border: `1px solid ${B}33` }}
+                style={{ backgroundColor: `${G}12`, border: `1px solid ${G}44` }}
               >
                 <div className="flex items-center gap-3 mb-5">
-                  <span className="h-0.5 w-5" style={{ backgroundColor: B }} />
+                  <span className="h-0.5 w-5" style={{ backgroundColor: G }} />
                   <h3
                     className="text-xs font-bold uppercase tracking-[0.22em]"
-                    style={{ color: BT }}
+                    style={{ color: G }}
                   >
                     Tech Stack
                   </h3>
@@ -662,9 +688,9 @@ function Index() {
                             key={t}
                             className="px-2.5 py-1 rounded-md text-[11px]"
                             style={{
-                              backgroundColor: `${B}18`,
-                              border: `1px solid ${B}44`,
-                              color: "#7aaeff",
+                              backgroundColor: `${G}18`,
+                              border: `1px solid ${G}44`,
+                              color: G,
                             }}
                           >
                             {t}
@@ -702,34 +728,43 @@ function Index() {
           </div>
         </section>
 
-        {/* ━━━━ 04 PROJECTS — W B R Y ━━━━ */}
+        {/* ━━━━ 04 PROJECTS — W R Y ━━━━ */}
         <section
           id="projects"
           className="snap-start relative min-h-screen px-4 md:px-12 py-20 md:py-24"
         >
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ backgroundColor: "rgba(10,10,18,0.68)" }}
+            style={{ backgroundColor: "rgba(10,10,18,0.32)" }}
           />
           <div className="relative mx-auto max-w-6xl">
             <div className="mb-14 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <div
-                  className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold mb-2"
-                  style={{ color: BT }}
-                >
-                  04 — Featured Work
+                <div className="flex items-center gap-2.5 mb-2">
+                  <img
+                    src="/rightopia-mark.svg"
+                    alt="Rightopia's Lab mark"
+                    className="h-7 w-7"
+                    style={{ filter: `drop-shadow(0 0 6px ${R}80)` }}
+                  />
+                  <span
+                    className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
+                    style={{ color: Y }}
+                  >
+                    04 — Rightopia&apos;s Lab
+                  </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: W }}>
-                  Creative <span style={{ color: Y }}>web</span>{" "}
-                  <span style={{ color: R }}>experiences.</span>
+                  Portals into <span style={{ color: Y }}>the lab</span>{" "}
+                  <span style={{ color: R }}>where art meets tech.</span>
                 </h2>
               </div>
               <p
                 className="max-w-xs text-sm leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.62)" }}
+                style={{ color: "rgba(255,255,255,0.80)" }}
               >
-                Web apps, brand logos, animations, at the intersection of code, design and motion.
+                Rightopia&apos;s Lab is my creative lab for experiments in web development, brand
+                design and motion. Four projects, four portals.
               </p>
             </div>
             <div className="space-y-24 md:space-y-32">
@@ -740,7 +775,7 @@ function Index() {
           </div>
         </section>
 
-        {/* ━━━━ 05 EDUCATION — W B R Y ━━━━ */}
+        {/* ━━━━ 05 EDUCATION — W R Y ━━━━ */}
         <section
           id="education"
           className="snap-start relative min-h-screen flex items-center px-4 md:px-12 py-20 md:py-24"
@@ -749,7 +784,7 @@ function Index() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(to right, rgba(10,10,18,0.96) 0%, rgba(10,10,18,0.78) 55%, rgba(10,10,18,0.12) 100%)",
+                "linear-gradient(to right, rgba(10,10,18,0.52) 0%, rgba(10,10,18,0.34) 55%, rgba(10,10,18,0.05) 100%)",
             }}
           />
 
@@ -757,11 +792,11 @@ function Index() {
             <div className="flex items-center gap-3 mb-10">
               <span
                 className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
-                style={{ color: BT }}
+                style={{ color: Y }}
               >
                 05 — Education
               </span>
-              <span className="h-px w-10" style={{ backgroundColor: `${B}55` }} />
+              <span className="h-px w-10" style={{ backgroundColor: `${Y}55` }} />
             </div>
 
             <h2
@@ -771,15 +806,22 @@ function Index() {
               <span style={{ color: R }}>Bath Spa</span> University, UK.
             </h2>
 
-            <ol
-              className="relative pl-6 md:pl-8 space-y-10"
-              style={{ borderLeft: `1px solid rgba(255,255,255,0.10)` }}
-            >
+            <div className="relative pl-6 md:pl-8 space-y-10">
+              {/* flight path — animated plane replaces the plain timeline line */}
+              <div
+                className="absolute left-0 top-0 bottom-0 border-l border-dashed pointer-events-none"
+                style={{ borderColor: "rgba(255,255,255,0.20)" }}
+              />
+              <Plane
+                aria-hidden
+                className="fly-plane absolute left-0 top-0 h-4 w-4 md:h-5 md:w-5 -translate-x-1/2 pointer-events-none"
+                style={{ color: Y, filter: `drop-shadow(0 0 5px ${Y}90)` }}
+              />
               {[
                 {
                   school: "Bath Spa University, UK",
-                  date: "Oct 2023 — Present",
-                  status: "Current",
+                  date: "Oct 2023 — May 2026",
+                  status: "Graduated · 2:1",
                   degree: "BSc (Hons) Creative Computing — Web Technologies",
                   notes: [
                     "Responsive Web Design & Creative Coding",
@@ -811,7 +853,7 @@ function Index() {
                   ],
                 },
               ].map((e) => (
-                <li key={e.school} className="relative">
+                <div key={e.school} className="relative">
                   {/* dot — yellow */}
                   <span
                     className="absolute rounded-full"
@@ -836,12 +878,12 @@ function Index() {
                     </span>
                   </div>
                   {/* status — blue */}
-                  <div className="mt-1 text-xs tracking-wide font-semibold" style={{ color: BT }}>
+                  <div className="mt-1 text-xs tracking-wide font-semibold" style={{ color: Y }}>
                     {e.status} · {e.degree}
                   </div>
                   <ul
                     className="mt-3 grid gap-1.5 text-sm sm:grid-cols-2"
-                    style={{ color: "rgba(255,255,255,0.50)" }}
+                    style={{ color: "rgba(255,255,255,0.78)" }}
                   >
                     {e.notes.map((n) => (
                       <li key={n} className="flex gap-2">
@@ -853,13 +895,13 @@ function Index() {
                       </li>
                     ))}
                   </ul>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
           </div>
         </section>
 
-        {/* ━━━━ 06 CONTACT — W B R Y ━━━━ */}
+        {/* ━━━━ 06 CONTACT — W R Y ━━━━ */}
         <section
           id="contact"
           className="snap-start relative min-h-screen flex items-center px-4 md:px-12 py-20 md:py-24"
@@ -868,7 +910,7 @@ function Index() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(to top, rgba(10,10,18,0.96) 0%, rgba(10,10,18,0.75) 60%, rgba(10,10,18,0.15) 100%)",
+                "linear-gradient(to top, rgba(10,10,18,0.52) 0%, rgba(10,10,18,0.32) 60%, rgba(10,10,18,0.07) 100%)",
             }}
           />
 
@@ -876,7 +918,7 @@ function Index() {
             {/* label — blue */}
             <div
               className="text-[10px] font-mono uppercase tracking-[0.4em] font-semibold"
-              style={{ color: BT }}
+              style={{ color: Y }}
             >
               06 — Contact
             </div>
@@ -890,7 +932,7 @@ function Index() {
 
             <p
               className="mx-auto max-w-sm text-sm leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.62)" }}
+              style={{ color: "rgba(255,255,255,0.80)" }}
             >
               Open to creative collaborations and logo design. Reach out and let&apos;s talk.
             </p>
@@ -950,8 +992,8 @@ function Index() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80"
                   style={{
-                    border: `1px solid ${B}44`,
-                    backgroundColor: `${B}0f`,
+                    border: "1px solid rgba(255,255,255,0.20)",
+                    backgroundColor: "rgba(255,255,255,0.05)",
                     color: "rgba(255,255,255,0.70)",
                   }}
                 >
